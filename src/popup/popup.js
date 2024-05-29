@@ -54,6 +54,7 @@ function createListItem(text, index = index) {
   deleteButton.onclick = function () {
     list.removeChild(listItem);
     localStorage.removeItem("2ndBrain_item__" + deleteButton.id.split("__")[1]);
+    location.reload(true);
   };
   itemText.textContent = text;
   listItem.appendChild(itemText);

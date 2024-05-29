@@ -7,7 +7,7 @@ let index = 0; // localStorage에 저장된 데이터의 index를 관리 위한 
  * 2nd Brain의 메모를 추가하는 로직
  * - 실행시 textInput으로 커서를 이동
  * - Enter키와 addButton 클릭 이벤트를 바인딩
- * - addButton을 클릭하면 addListItem 함수를 실행
+ * - addButton을 클릭하면 localStorage에 데이터를 저장하고 createListItem 함수를 호출
  */
 if (textInput && addButton) {
   textInput.focus();
@@ -17,7 +17,13 @@ if (textInput && addButton) {
       addButton.click();
     }
   });
-  addButton.addEventListener("click", addButtonOnClick);
+  addButton.addEventListener("click", () => {
+    const text = textInput.value;
+    if (text) {
+      localStorage.setItem("2ndBrain_item__" + index, text);
+      createListItem(text, index++);
+    }
+  });
 }
 
 //TODO: localStorage에 저장된 데이터가 무작위 순서로 나오는 문제
@@ -34,14 +40,6 @@ if (list) {
       }
       createListItem(localStorage.getItem(localStorage.key(i)), itemIndex);
     }
-  }
-}
-
-function addButtonOnClick() {
-  const text = textInput.value;
-  if (text) {
-    localStorage.setItem("2ndBrain_item__" + index, text);
-    createListItem(text, index++);
   }
 }
 

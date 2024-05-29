@@ -1,6 +1,7 @@
 const textInput = document.getElementById("textInput");
 const addButton = document.getElementById("addButton");
 const list = document.getElementById("list");
+const clearButton = document.getElementById("clearButton");
 let index = 0; // localStorage에 저장된 데이터의 index를 관리 위한 변수
 
 /**
@@ -27,6 +28,7 @@ if (textInput && addButton) {
 }
 
 //TODO: localStorage에 저장된 데이터가 무작위 순서로 나오는 문제
+//TODO: localStorage => chrome.storage.local로 변경, 위의 문제도 해결 가능할듯
 /**
  * localStorage에 저장된 데이터를 불러와서 화면에 표시하는 로직
  * - localStorage에 저장된 데이터를 순회하면서 2nd Brain의 메모를 화면에 표시
@@ -41,6 +43,17 @@ if (list) {
       createListItem(localStorage.getItem(localStorage.key(i)), itemIndex);
     }
   }
+}
+
+/**
+ * 2nd Brain의 메모를 삭제하는 로직
+ * - clearButton을 클릭하면 localStorage를 비우고, 화면을 새로고침
+ */
+if (clearButton) {
+  clearButton.addEventListener("click", () => {
+    localStorage.clear();
+    location.reload(true);
+  });
 }
 
 function createListItem(text, index = index) {

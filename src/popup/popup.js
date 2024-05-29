@@ -17,17 +17,22 @@ if (textInput && enterButton) {
 //TODO: localStorage에 저장된 데이터가 무작위 순서로 나오는 문제
 if (list) {
   for (let i = 0; i < localStorage.length; i++) {
-    if (localStorage.key(i).includes("2nd_brain_")) {
+    if (localStorage.key(i).includes("2nd_brain_item__")) {
+      const itemIndex = localStorage.key(i).split("__")[1];
+      if (parseInt(itemIndex) >= index) {
+        index = parseInt(itemIndex) + 1;
+      }
+
       const listItem = document.createElement("li");
       const itemText = document.createElement("span");
       const deleteButton = document.createElement("button");
 
       deleteButton.textContent = "DEL";
       deleteButton.className = "delButton";
-      deleteButton.id = "delButton_" + i;
+      deleteButton.id = "delButton_" + itemIndex;
       deleteButton.onclick = function () {
         list.removeChild(listItem);
-        localStorage.removeItem(localStorage.key(i));
+        localStorage.removeItem("2nd_brain_item__" + itemIndex);
       };
       itemText.textContent = localStorage.getItem(localStorage.key(i));
       listItem.appendChild(itemText);
@@ -39,10 +44,9 @@ if (list) {
 }
 
 function addListItem() {
-  console.log("addListItem");
   const text = textInput.value;
   if (text) {
-    localStorage.setItem("2nd_brain_" + index, text);
+    localStorage.setItem("2nd_brain_item__" + index, text);
 
     const listItem = document.createElement("li");
     const itemText = document.createElement("span");
@@ -53,7 +57,9 @@ function addListItem() {
     deleteButton.id = "delButton_" + index;
     deleteButton.onclick = function () {
       list.removeChild(listItem);
-      localStorage.removeItem("2nd_brain_" + deleteButton.id.split("_")[1]);
+      localStorage.removeItem(
+        "2nd_brain_item__" + deleteButton.id.split("_")[1]
+      );
     };
     itemText.textContent = text;
     listItem.appendChild(itemText);

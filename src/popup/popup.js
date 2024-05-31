@@ -30,22 +30,24 @@ window.onload = () => {
     });
   }
 
-  //TODO: localStorage에 저장된 데이터가 무작위 순서로 나오는 문제
   /**
    * chrome.storage.local에 저장된 데이터를 불러와서 화면에 표시하는 로직
-   * - chrome.storage.local에 저장된 데이터를 순회하면서 2nd Brain의 메모를 화면에 표시
+   * - chrome.storage.local에 저장된 데이터를 index순서로 정렬
+   * - 순서대로 2nd Brain의 메모를 화면에 표시
    */
   if (list) {
     chrome.storage.local.get(null, (items) => {
-      for (let key in items) {
-        if (key.includes("2ndBrain_item__")) {
-          const itemIndex = parseInt(key.split("__")[1]);
-          if (itemIndex >= index) {
-            index = itemIndex + 1;
+      Object.entries(items)
+        .sort((a, b) => a[0].split("__")[1] - b[0].split("__")[1])
+        .forEach(([key, value]) => {
+          if (key.includes("2ndBrain_item__")) {
+            const itemIndex = parseInt(key.split("__")[1]);
+            if (itemIndex >= index) {
+              index = itemIndex + 1;
+            }
+            createListItem(value, itemIndex);
           }
-          createListItem(items[key], itemIndex);
-        }
-      }
+        });
     });
   }
 
@@ -56,6 +58,7 @@ window.onload = () => {
   if (clearButton) {
     clearButton.addEventListener("click", () => {
       chrome.storage.local.clear();
+      index = 0;
       location.reload(true);
     });
   }

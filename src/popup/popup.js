@@ -1,11 +1,9 @@
-const textInput = document.getElementById("textInput");
-const addButton = document.getElementById("addButton");
-const list = document.getElementById("list");
-const clearButton = document.getElementById("clearButton");
-let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
-
 window.onload = () => {
-  console.log("2ndBrain popup.js");
+  const textInput = document.getElementById("textInput");
+  const addButton = document.getElementById("addButton");
+  const list = document.getElementById("list");
+  const clearButton = document.getElementById("clearButton");
+  let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   /**
    * 2nd Brain의 메모를 추가하는 로직
    * - 실행시 textInput으로 커서를 이동
@@ -20,10 +18,10 @@ window.onload = () => {
         addButton.click();
       }
     });
-    //TODO: 빈공백 입력시 저장되는 문제
     addButton.addEventListener("click", () => {
       const text = textInput.value;
-      if (text) {
+      const noSpacesText = text.replace(/\s+/g, "");
+      if (noSpacesText !== "") {
         chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
         createListItem(text, index++);
       }

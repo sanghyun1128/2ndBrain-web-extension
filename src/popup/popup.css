@@ -38,14 +38,14 @@ input:focus {
   text-align: center;
   border: none;
   border-radius: 30px;
-  background-color: #3dcfc2;
+  background-color: #196861;
   box-shadow: 0 4px 15px 0 #2db7aa;
   color: #e1f7f5;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
 .addButton:hover {
-  background-color: #196861;
+  background-color: #3dcfc2;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }

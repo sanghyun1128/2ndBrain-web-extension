@@ -57,9 +57,25 @@ ul {
   grid-column: 1 / 6;
   grid-row: 2 / 5;
   width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
   list-style-type: none;
+  overflow-y: scroll;
+}
+ul::-webkit-scrollbar {
+  width: 6px;
+}
+ul::-webkit-scrollbar-track {
+  background: #85e1d8;
+  border-radius: 10px;
+}
+ul::-webkit-scrollbar-thumb {
+  background: #f9c22e;
+  border-radius: 10px;
+}
+ul::-webkit-scrollbar-thumb:hover {
+  background: #745c04;
 }
 
 li {
@@ -69,6 +85,7 @@ li {
   align-items: center;
   align-content: center;
   background-color: #85e1d8;
+  margin-right: 5px;
   margin-bottom: 5px;
   border: 0;
   border-radius: 30px;

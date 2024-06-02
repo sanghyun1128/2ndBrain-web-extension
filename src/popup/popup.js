@@ -4,6 +4,8 @@ window.onload = () => {
   const list = document.getElementById("list");
   const clearButton = document.getElementById("clearButton");
   let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
+  let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
+
   /**
    * 2nd Brain의 메모를 추가하는 로직
    * - 실행시 textInput으로 커서를 이동
@@ -21,9 +23,12 @@ window.onload = () => {
     addButton.addEventListener("click", () => {
       const text = textInput.value;
       const noSpacesText = text.replace(/\s+/g, "");
-      if (noSpacesText !== "") {
+      //TODO: 10개 이상의 메모를 저장하려 할 떄 인풋창에 경고 메시지를 띄우는 기능 추가
+      if (noSpacesText !== "" && size < 10) {
         chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
-        createListItem(text, index++);
+        createListItem(text, index);
+        index++;
+        size++;
       }
     });
   }
@@ -44,6 +49,7 @@ window.onload = () => {
               index = itemIndex + 1;
             }
             createListItem(value, itemIndex);
+            size++;
           }
         });
     });
@@ -67,7 +73,7 @@ const createListItem = (text, index = index) => {
   const itemText = document.createElement("span");
   const deleteButton = document.createElement("button");
 
-  deleteButton.textContent = "DEL";
+  deleteButton.textContent = "X";
   deleteButton.className = "delButton";
   deleteButton.id = "delButton_id__" + index;
   deleteButton.onclick = function () {

@@ -29,6 +29,13 @@ window.onload = () => {
         createListItem(text, index);
         index++;
         size++;
+        textInput.classList.remove("warning");
+      } else {
+        console.log("warning");
+        textInput.classList.add("warning", "shake");
+        setTimeout(() => {
+          textInput.classList.remove("shake");
+        }, 400);
       }
     });
   }

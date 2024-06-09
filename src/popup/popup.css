@@ -4,9 +4,6 @@ body {
   margin: 20px;
   border: none;
   background-color: #adeae5;
-}
-
-.container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 55px);
@@ -14,7 +11,7 @@ body {
   align-items: center;
 }
 
-.header {
+#header {
   grid-column: 1 / 6;
   grid-row: 1 / 2;
   display: grid;

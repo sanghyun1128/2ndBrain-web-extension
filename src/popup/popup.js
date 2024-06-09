@@ -8,6 +8,9 @@ window.onload = () => {
   let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
 
+  const maxMemoSize = 10;
+  const maxInputLength = 30;
+
   /**
    * 2nd Brain의 메모를 추가하는 로직
    * - 실행시 textInput으로 커서를 이동
@@ -22,24 +25,32 @@ window.onload = () => {
         addButton.click();
       }
     });
+    textInput.addEventListener("input", () => {
+      if (textInput.value.length > maxInputLength) {
+        textInput.value = textInput.value.substring(0, maxInputLength);
+        onTextInputWarning(`메모는 ${maxInputLength}자 이내로 입력해주세요.`);
+      } else {
+        offTextInputWarning();
+      }
+    });
+
     addButton.addEventListener("click", () => {
       const text = textInput.value;
       const noSpacesText = text.replace(/\s+/g, "");
-      if (noSpacesText !== "" && size < 10) {
-        chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
-        createListItem(text, index);
-        index++;
-        size++;
-        textInput.classList.remove("warning");
-        warningMessage.classList.add("hidden");
-      } else {
-        textInput.classList.add("warning", "shake");
-        warningMessage.textContent = "메모는 최대 10개까지만 저장 가능합니다.";
-        warningMessage.classList.remove("hidden");
-        setTimeout(() => {
-          textInput.classList.remove("shake");
-        }, 400);
+      if (noSpacesText === "") {
+        onTextInputWarning("메모를 입력해주세요.");
+        return;
       }
+      if (size >= maxMemoSize) {
+        onTextInputWarning("메모는 최대 10개까지 저장 가능합니다.");
+        return;
+      }
+
+      chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
+      createListItem(text, index);
+      index++;
+      size++;
+      offTextInputWarning();
     });
   }
 
@@ -99,4 +110,18 @@ const createListItem = (text, index = index) => {
 
   list.appendChild(listItem);
   textInput.value = "";
+};
+
+const onTextInputWarning = (message) => {
+  textInput.classList.add("warning", "shake");
+  warningMessage.textContent = message;
+  warningMessage.classList.remove("hidden");
+  setTimeout(() => {
+    textInput.classList.remove("shake");
+  }, 400);
+};
+
+const offTextInputWarning = () => {
+  textInput.classList.remove("warning");
+  warningMessage.classList.add("hidden");
 };

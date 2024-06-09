@@ -15,16 +15,22 @@ window.onload = () => {
    * 2nd Brain의 메모를 추가하는 로직
    * - 실행시 textInput으로 커서를 이동
    * - Enter키와 addButton 클릭 이벤트를 연결
-   * - addButton을 클릭하면 chrome.storage.local에 데이터를 저장하고 createListItem 함수를 호출
+   * - textInput에 입력된 값이 maxInputLength자를 넘으면 경고 메시지를 표시
+   * - addButton을 클릭하면 검사 후 경고 메시지를 표시
+   *  - 입력된 값이 없는 경우
+   *  - 메모가 maxMemoSize개 이상인 경우
+   * - 이상 없으면 chrome.storage.local에 데이터를 저장하고 createListItem 함수를 호출
    */
   if (textInput && addButton) {
     textInput.focus();
+
     textInput.addEventListener("keypress", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
         addButton.click();
       }
     });
+
     textInput.addEventListener("input", () => {
       if (textInput.value.length > maxInputLength) {
         textInput.value = textInput.value.substring(0, maxInputLength);

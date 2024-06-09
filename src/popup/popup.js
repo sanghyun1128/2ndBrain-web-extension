@@ -1,3 +1,9 @@
+import {
+  MAX_INPUT_LENGTH,
+  MAX_MEMO_SIZE,
+  WARNING_TEXT,
+} from "../const/popup.const.js";
+
 window.onload = () => {
   const textInput = document.getElementById("textInput");
   const addButton = document.getElementById("addButton");
@@ -7,9 +13,6 @@ window.onload = () => {
 
   let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
-
-  const maxMemoSize = 10;
-  const maxInputLength = 30;
 
   /**
    * 2nd Brain의 메모를 추가하는 로직
@@ -32,9 +35,9 @@ window.onload = () => {
     });
 
     textInput.addEventListener("input", () => {
-      if (textInput.value.length > maxInputLength) {
-        textInput.value = textInput.value.substring(0, maxInputLength);
-        onTextInputWarning(`메모는 ${maxInputLength}자 이내로 입력해주세요.`);
+      if (textInput.value.length > MAX_INPUT_LENGTH) {
+        textInput.value = textInput.value.substring(0, MAX_INPUT_LENGTH);
+        onTextInputWarning(WARNING_TEXT.MAX_INPUT_LENGTH_WARNING);
       } else {
         offTextInputWarning();
       }
@@ -44,11 +47,11 @@ window.onload = () => {
       const text = textInput.value;
       const noSpacesText = text.replace(/\s+/g, "");
       if (noSpacesText === "") {
-        onTextInputWarning("메모를 입력해주세요.");
+        onTextInputWarning(WARNING_TEXT.EMPTY_INPUT_WARNING);
         return;
       }
-      if (size >= maxMemoSize) {
-        onTextInputWarning("메모는 최대 10개까지 저장 가능합니다.");
+      if (size >= MAX_MEMO_SIZE) {
+        onTextInputWarning(WARNING_TEXT.MAX_MEMO_SIZE_WARNING);
         return;
       }
 

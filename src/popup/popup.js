@@ -3,6 +3,8 @@ window.onload = () => {
   const addButton = document.getElementById("addButton");
   const list = document.getElementById("list");
   const clearButton = document.getElementById("clearButton");
+  const warningMessage = document.getElementById("warningMessage");
+
   let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
 
@@ -23,16 +25,17 @@ window.onload = () => {
     addButton.addEventListener("click", () => {
       const text = textInput.value;
       const noSpacesText = text.replace(/\s+/g, "");
-      //TODO: 10개 이상의 메모를 저장하려 할 떄 인풋창에 경고 메시지를 띄우는 기능 추가
       if (noSpacesText !== "" && size < 10) {
         chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
         createListItem(text, index);
         index++;
         size++;
         textInput.classList.remove("warning");
+        warningMessage.classList.add("hidden");
       } else {
-        console.log("warning");
         textInput.classList.add("warning", "shake");
+        warningMessage.textContent = "메모는 최대 10개까지만 저장 가능합니다.";
+        warningMessage.classList.remove("hidden");
         setTimeout(() => {
           textInput.classList.remove("shake");
         }, 400);

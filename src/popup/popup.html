@@ -1,9 +1,13 @@
 <link rel="stylesheet" href="popup.css" />
 <html>
+  <meta charset="UTF-8" />
   <body>
     <div class="container">
-      <input id="textInput" type="text" placeholder="" />
-      <button id="addButton" class="addButton">+</button>
+      <div class="header">
+        <input id="textInput" type="text" placeholder="" />
+        <p id="warningMessage" class="hidden"></p>
+        <button id="addButton" class="addButton">+</button>
+      </div>
       <ul id="list"></ul>
       <button id="clearButton" class="clearButton">Clear</button>
     </div>

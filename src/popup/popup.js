@@ -118,6 +118,7 @@ const createListItem = (text, index = index) => {
   listItem.appendChild(deleteButton);
 
   list.appendChild(listItem);
+  listItem.scrollIntoView({ block: "end", behavior: "smooth" });
   textInput.value = "";
 };
 

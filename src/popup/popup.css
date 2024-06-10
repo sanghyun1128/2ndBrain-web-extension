@@ -69,28 +69,9 @@ input.shake {
   display: none;
 }
 
-.addButton {
+#addButton {
   grid-column: 5 / 6;
   grid-row: 1 / 4;
-  width: 80%;
-  cursor: pointer;
-  font-size: 25px;
-  text-align: center;
-  border: none;
-  border-radius: 30px;
-  background-color: #196861;
-  box-shadow: 0 4px 15px 0 #2db7aa;
-  color: #e1f7f5;
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-}
-.addButton:hover {
-  background-color: #3dcfc2;
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-}
-.addButton:focus {
-  outline: none;
 }
 
 ul {
@@ -138,7 +119,7 @@ span {
   color: #196861;
 }
 
-.delButton {
+.smallButton {
   cursor: pointer;
   font-size: 13px;
   font-weight: bold;
@@ -152,15 +133,35 @@ span {
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
-.delButton:hover {
+.smallButton:hover {
   background-color: #f9c22e;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
 
-.clearButton {
-  grid-column: 3 / 4;
-  grid-row: 5 / 6;
+.mediumButton {
+  width: 80%;
+  cursor: pointer;
+  font-size: 25px;
+  text-align: center;
+  border: none;
+  border-radius: 30px;
+  background-color: #196861;
+  box-shadow: 0 4px 15px 0 #2db7aa;
+  color: #e1f7f5;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.mediumButton:hover {
+  background-color: #3dcfc2;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.mediumButton:focus {
+  outline: none;
+}
+
+.largeButton {
   width: 100%;
   cursor: pointer;
   font-size: 20px;
@@ -173,8 +174,25 @@ span {
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
-.clearButton:hover {
+.largeButton:hover {
   background-color: #745c04;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
+}
+
+#footer {
+  grid-column: 1 / 6;
+  grid-row: 5 / 6;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+#clearButton {
+  grid-column: 2 / 5;
+}
+
+#historyButton {
+  grid-column: 5 / 6;
 }

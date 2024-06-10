@@ -103,7 +103,7 @@ const createListItem = (text, index = index) => {
   const deleteButton = document.createElement("button");
 
   deleteButton.textContent = "X";
-  deleteButton.className = "delButton";
+  deleteButton.className = "smallButton";
   deleteButton.id = "delButton_id__" + index;
   deleteButton.onclick = function () {
     list.removeChild(listItem);

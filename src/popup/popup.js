@@ -9,7 +9,6 @@ window.onload = () => {
   const addButton = document.getElementById("addButton");
   const list = document.getElementById("list");
   const clearButton = document.getElementById("clearButton");
-  const warningMessage = document.getElementById("warningMessage");
 
   let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
@@ -128,6 +127,9 @@ const deleteListItem = (index) => {
 };
 
 const onTextInputWarning = (message) => {
+  const textInput = document.getElementById("textInput");
+  const warningMessage = document.getElementById("warningMessage");
+
   textInput.classList.add("warning", "shake");
   warningMessage.textContent = message;
   warningMessage.classList.remove("hidden");
@@ -137,6 +139,9 @@ const onTextInputWarning = (message) => {
 };
 
 const offTextInputWarning = () => {
+  const textInput = document.getElementById("textInput");
+  const warningMessage = document.getElementById("warningMessage");
+
   textInput.classList.remove("warning");
   warningMessage.classList.add("hidden");
 };

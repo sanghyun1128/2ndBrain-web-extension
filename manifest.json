@@ -7,5 +7,9 @@
     "default_popup": "/src/popup/popup.html",
     "default_icon": "/src/images/project-icon.png"
   },
-  "permissions": ["storage"]
+  "background": {
+    "service_worker": "/src/background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "tabs"]
 }

@@ -86,7 +86,7 @@ window.onload = () => {
   }
 
   /**
-   * 2nd Brain의 메모를 삭제하는 로직
+   * 2nd Brain의 메모를 모두 삭제하는 로직
    * - clearButton을 클릭하면 chrome.storage.local를 비우고, 화면을 새로고침
    */
   if (clearButton) {
@@ -111,14 +111,20 @@ const createListItem = (text, index = index) => {
     chrome.storage.local.remove([
       "2ndBrain_item__" + deleteButton.id.split("__")[1],
     ]);
-    location.reload(true);
+    deleteListItem(deleteButton.id.split("__")[1]);
   };
   itemText.textContent = text;
+  listItem.id = "listItem_id__" + index;
   listItem.appendChild(itemText);
   listItem.appendChild(deleteButton);
 
   list.appendChild(listItem);
   textInput.value = "";
+};
+
+const deleteListItem = (index) => {
+  const listItem = document.getElementById("listItem_id__" + index);
+  list.removeChild(listItem);
 };
 
 const onTextInputWarning = (message) => {

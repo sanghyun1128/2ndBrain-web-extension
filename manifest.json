@@ -5,7 +5,16 @@
   "version": "1.0",
   "action": {
     "default_popup": "/src/popup/popup.html",
-    "default_icon": "/src/images/project-icon.png"
+    "default_icon": {
+      "16": "/src/images/project-icon-16.png",
+      "48": "/src/images/project-icon-48.png",
+      "128": "/src/images/project-icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "/src/images/project-icon-16.png",
+    "48": "/src/images/project-icon-48.png",
+    "128": "/src/images/project-icon-128.png"
   },
   "background": {
     "service_worker": "/src/background.js",

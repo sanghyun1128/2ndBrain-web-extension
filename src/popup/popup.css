@@ -35,7 +35,7 @@ input:focus {
   outline: none;
 }
 input.warning {
-  border: 2px solid #f9c22e;
+  border: 2px solid #ce3d4a;
 }
 @keyframes shake {
   0% {
@@ -62,7 +62,7 @@ input.shake {
   grid-column: 1 / 5;
   grid-row: 4 / 6;
   font-size: 9px;
-  color: #745c04;
+  color: #ce3d4a;
 }
 
 .hidden {
@@ -72,6 +72,11 @@ input.shake {
 #addButton {
   grid-column: 5 / 6;
   grid-row: 1 / 4;
+  background-color: #196861;
+}
+#addButton img {
+  width: 70%;
+  height: 70%;
 }
 
 ul {
@@ -121,39 +126,37 @@ span {
 
 .smallButton {
   cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-  text-align: center;
-  width: 20px;
-  height: 20px;
+  width: 10%;
+  height: 10%;
   border: none;
-  border-radius: 50%;
   background-color: transparent;
-  color: #745c04;
+  filter: brightness(0.1);
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
 .smallButton:hover {
-  background-color: #f9c22e;
+  filter: brightness(1);
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
+}
+.smallButton img {
+  width: 70%;
+  height: 70%;
 }
 
 .mediumButton {
   width: 80%;
+  height: 100%;
   cursor: pointer;
-  font-size: 25px;
-  text-align: center;
   border: none;
   border-radius: 30px;
-  background-color: #196861;
+  padding: 10%;
   box-shadow: 0 4px 15px 0 #2db7aa;
-  color: #e1f7f5;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
 .mediumButton:hover {
-  background-color: #3dcfc2;
+  filter: brightness(0.8);
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
@@ -161,38 +164,31 @@ span {
   outline: none;
 }
 
-.largeButton {
-  width: 100%;
-  cursor: pointer;
-  font-size: 20px;
-  text-align: center;
-  border: none;
-  border-radius: 30px;
-  background-color: #f9c22e;
-  box-shadow: 0 4px 15px 0 #2db7aa;
-  color: #e1f7f5;
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-}
-.largeButton:hover {
-  background-color: #745c04;
-  -webkit-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-}
-
 #footer {
   grid-column: 1 / 6;
   grid-row: 5 / 6;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 11px);
   justify-items: center;
   align-items: center;
 }
 
 #clearButton {
-  grid-column: 2 / 5;
-}
-
-#historyButton {
   grid-column: 5 / 6;
+  grid-row: 2 / 5;
+  background-color: #745c04;
+}
+#clearButton img {
+  width: 70%;
+  height: 70%;
+}
+#historyButton {
+  grid-column: 3 / 4;
+  grid-row: 2 / 5;
+  background-color: #196861;
+}
+#historyButton img {
+  width: 70%;
+  height: 70%;
 }

@@ -101,8 +101,10 @@ const createListItem = (text, index = index) => {
   const listItem = document.createElement("li");
   const itemText = document.createElement("span");
   const deleteButton = document.createElement("button");
+  const deleteIcon = document.createElement("img");
 
-  deleteButton.textContent = "X";
+  deleteIcon.src = "../images/x-icon.svg";
+  deleteButton.appendChild(deleteIcon);
   deleteButton.className = "smallButton";
   deleteButton.id = "delButton_id__" + index;
   deleteButton.onclick = function () {
@@ -125,6 +127,7 @@ const createListItem = (text, index = index) => {
 const deleteListItem = (index) => {
   const listItem = document.getElementById("listItem_id__" + index);
   list.removeChild(listItem);
+  size--;
 };
 
 const onTextInputWarning = (message) => {

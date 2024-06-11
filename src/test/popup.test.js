@@ -18,6 +18,7 @@ describe("2ndBrain Chrome Extension popup", () => {
       args: [
         `--disable-extensions-except=${extensionPath}`,
         `--load-extension=${extensionPath}`,
+        "--user-agent=PuppeteerAgent",
       ],
     });
     extensionPage = await browser.newPage();

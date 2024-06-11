@@ -14,7 +14,7 @@ describe("2ndBrain Chrome Extension popup", () => {
   beforeAll(async () => {
     const extensionPath = path.resolve(__dirname, "../..");
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: [
         `--disable-extensions-except=${extensionPath}`,
         `--load-extension=${extensionPath}`,

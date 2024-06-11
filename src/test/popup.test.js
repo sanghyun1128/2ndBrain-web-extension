@@ -28,7 +28,7 @@ describe("2ndBrain Chrome Extension popup", () => {
   });
 
   afterAll(async () => {
-    await browser.close();
+    if (browser) await browser.close();
   });
 
   it("should popup ui load", async () => {

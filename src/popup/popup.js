@@ -57,6 +57,7 @@ window.onload = () => {
 
       chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
       createListItem(text, index);
+      textInput.value = "";
       index++;
       size++;
       offTextInputWarning();
@@ -133,7 +134,6 @@ const createListItem = (text, index = index) => {
 
   list.appendChild(listItem);
   listItem.scrollIntoView({ block: "end", behavior: "smooth" });
-  textInput.value = "";
 };
 
 const deleteListItem = (index) => {

@@ -1,7 +1,6 @@
 name: 2ndBrain CI
 
 on: [push]
-s
 jobs:
   build:
     runs-on: ubuntu-latest

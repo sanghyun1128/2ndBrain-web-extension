@@ -12,33 +12,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    services:
-      xvfb:
-        image: selenium/standalone-chrome
-        ports:
-          - 4444:4444
-
+    container:
+      image: pptrdev/puppeteer:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "18.17.1"
-
       - name: Install dependencies
         run: npm install
-
-      - name: Update apt-get
-        run: sudo apt-get update
-
-      - name: Install puppeteer dependencies
-        run: sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb libgbm-dev
-
-      - name: Install Chrome
-        run: sudo apt-get install google-chrome-stable
-
       - name: Run tests
         run: npm test

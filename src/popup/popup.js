@@ -9,6 +9,7 @@ window.onload = () => {
   const addButton = document.getElementById("addButton");
   const list = document.getElementById("list");
   const clearButton = document.getElementById("clearButton");
+  const historyButton = document.getElementById("historyButton");
 
   let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
@@ -92,7 +93,18 @@ window.onload = () => {
     clearButton.addEventListener("click", () => {
       chrome.storage.local.clear();
       index = 0;
-      location.reload(true);
+      size = 0;
+      list.innerHTML = "";
+    });
+  }
+
+  /**
+   * 2nd Brain의 히스토리를 볼 수 있는 페이지로 이동하는 로직
+   * - historyButton을 클릭하면 setting.html로 이동
+   */
+  if (historyButton) {
+    historyButton.addEventListener("click", () => {
+      chrome.tabs.create({ url: "/src/pages/setting.html" });
     });
   }
 };
@@ -107,7 +119,7 @@ const createListItem = (text, index = index) => {
   deleteButton.appendChild(deleteIcon);
   deleteButton.className = "smallButton";
   deleteButton.id = "delButton_id__" + index;
-  deleteButton.onclick = function () {
+  deleteButton.onclick = () => {
     list.removeChild(listItem);
     chrome.storage.local.remove([
       "2ndBrain_item__" + deleteButton.id.split("__")[1],

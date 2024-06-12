@@ -1,10 +1,13 @@
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url) {
-    const itemKeys = await findItemKeyMatchedQuery(
+    const items = await findItemKeyMatchedQuery(
       getQueryFromUrl(changeInfo.url)
     );
-    itemKeys.forEach((key) => {
+    items.forEach((key, value) => {
       chrome.storage.local.remove(key);
+      chrome.storage.local.set({
+        [`2ndBrain_history__${key.split("__")[1]}`]: value,
+      });
     });
   }
 });
@@ -31,7 +34,7 @@ const findItemKeyMatchedQuery = (query) => {
           ([key, value]) => key.includes("2ndBrain_item__") && value === query
         )
         .forEach(([key, value]) => {
-          result.push(key);
+          result.push([key, value]);
         });
       resolve(result);
     });

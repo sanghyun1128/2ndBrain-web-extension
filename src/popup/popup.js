@@ -120,6 +120,9 @@ const createListItem = (text, itemAddTimeToMs) => {
     chrome.storage.local.remove([
       "2ndBrain_item__" + deleteButton.id.split("__")[1],
     ]);
+    chrome.storage.local.set({
+      ["2ndBrain_history__" + itemAddTimeToMs]: text,
+    });
     deleteListItem(deleteButton.id.split("__")[1]);
   };
   itemText.textContent = text;

@@ -11,7 +11,6 @@ window.onload = () => {
   const clearButton = document.getElementById("clearButton");
   const historyButton = document.getElementById("historyButton");
 
-  let index = 0; // chrome.storage.local에 저장된 데이터의 index를 관리 위한 변수
   let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
 
   /**
@@ -46,6 +45,7 @@ window.onload = () => {
     addButton.addEventListener("click", () => {
       const text = textInput.value;
       const noSpacesText = text.replace(/\s+/g, "");
+      const currentTimeToMs = Date.now();
       if (noSpacesText === "") {
         onTextInputWarning(WARNING_TEXT.EMPTY_INPUT_WARNING);
         return;
@@ -55,10 +55,9 @@ window.onload = () => {
         return;
       }
 
-      chrome.storage.local.set({ ["2ndBrain_item__" + index]: text });
-      createListItem(text, index);
+      chrome.storage.local.set({ ["2ndBrain_item__" + currentTimeToMs]: text });
+      createListItem(text, currentTimeToMs);
       textInput.value = "";
-      index++;
       size++;
       offTextInputWarning();
     });
@@ -66,7 +65,7 @@ window.onload = () => {
 
   /**
    * chrome.storage.local에 저장된 데이터를 불러와서 화면에 표시하는 로직
-   * - chrome.storage.local에 저장된 데이터를 index순서로 정렬
+   * - chrome.storage.local에 저장된 데이터를 저장한 시간순서로 정렬
    * - 순서대로 2nd Brain의 메모를 화면에 표시
    */
   if (list) {
@@ -75,11 +74,8 @@ window.onload = () => {
         .sort((a, b) => a[0].split("__")[1] - b[0].split("__")[1])
         .forEach(([key, value]) => {
           if (key.includes("2ndBrain_item__")) {
-            const itemIndex = parseInt(key.split("__")[1]);
-            if (itemIndex >= index) {
-              index = itemIndex + 1;
-            }
-            createListItem(value, itemIndex);
+            const itemAddTime = parseInt(key.split("__")[1]);
+            createListItem(value, itemAddTime);
             size++;
           }
         });
@@ -93,7 +89,6 @@ window.onload = () => {
   if (clearButton) {
     clearButton.addEventListener("click", () => {
       chrome.storage.local.clear();
-      index = 0;
       size = 0;
       list.innerHTML = "";
     });
@@ -110,7 +105,7 @@ window.onload = () => {
   }
 };
 
-const createListItem = (text, index = index) => {
+const createListItem = (text, itemAddTimeToMs) => {
   const listItem = document.createElement("li");
   const itemText = document.createElement("span");
   const deleteButton = document.createElement("button");
@@ -119,7 +114,7 @@ const createListItem = (text, index = index) => {
   deleteIcon.src = "../images/x-icon.svg";
   deleteButton.appendChild(deleteIcon);
   deleteButton.className = "smallButton";
-  deleteButton.id = "delButton_id__" + index;
+  deleteButton.id = "delButton_id__" + itemAddTimeToMs;
   deleteButton.onclick = () => {
     list.removeChild(listItem);
     chrome.storage.local.remove([
@@ -128,7 +123,7 @@ const createListItem = (text, index = index) => {
     deleteListItem(deleteButton.id.split("__")[1]);
   };
   itemText.textContent = text;
-  listItem.id = "listItem_id__" + index;
+  listItem.id = "listItem_id__" + itemAddTimeToMs;
   listItem.appendChild(itemText);
   listItem.appendChild(deleteButton);
 
@@ -136,8 +131,8 @@ const createListItem = (text, index = index) => {
   listItem.scrollIntoView({ block: "end", behavior: "smooth" });
 };
 
-const deleteListItem = (index) => {
-  const listItem = document.getElementById("listItem_id__" + index);
+const deleteListItem = (itemAddTimeToMs) => {
+  const listItem = document.getElementById("listItem_id__" + itemAddTimeToMs);
   list.removeChild(listItem);
   size--;
 };

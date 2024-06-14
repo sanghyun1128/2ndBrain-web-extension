@@ -4,14 +4,14 @@ import {
   WARNING_TEXT,
 } from "../const/popup.const.js";
 
+let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
+
 window.onload = () => {
   const textInput = document.getElementById("textInput");
   const addButton = document.getElementById("addButton");
   const list = document.getElementById("list");
   const clearButton = document.getElementById("clearButton");
   const historyButton = document.getElementById("historyButton");
-
-  let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
 
   /**
    * 2nd Brain의 메모를 추가하는 로직
@@ -116,7 +116,6 @@ const createListItem = (text, itemAddTimeToMs) => {
   deleteButton.className = "smallButton";
   deleteButton.id = "delButton_id__" + itemAddTimeToMs;
   deleteButton.onclick = () => {
-    list.removeChild(listItem);
     chrome.storage.local.remove([
       "2ndBrain_item__" + deleteButton.id.split("__")[1],
     ]);

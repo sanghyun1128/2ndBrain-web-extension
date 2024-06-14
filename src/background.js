@@ -1,12 +1,27 @@
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url) {
-    const items = await findItemKeyMatchedQuery(
-      getQueryFromUrl(changeInfo.url)
-    );
-    items.forEach((key, value) => {
-      chrome.storage.local.remove(key);
+    const queryKey = getQueryFromUrl(changeInfo.url);
+    const items = await findItemKeyMatchedQuery(queryKey[0], queryKey[1]);
+    items.forEach(([key, value, query, queryKey]) => {
       chrome.storage.local.set({
-        [`2ndBrain_history__${key.split("__")[1]}`]: value,
+        [key]: {
+          content: value.content,
+          addedTime: value.addedTime,
+          deletedTime: Date.now(),
+          deletedBy: () => {
+            switch (queryKey) {
+              case "q":
+                return "Google";
+              case "query":
+                return "Naver";
+              case "search_query":
+                return "Youtube";
+              default:
+                return "Unknown";
+            }
+          },
+          matchedText: query,
+        },
       });
     });
   }
@@ -19,22 +34,23 @@ const getQueryFromUrl = (url) => {
   for (const [key, value] of params.entries()) {
     // q: Google, query: Naver, search_query: Youtube
     if (["q", "query", "search_query"].includes(key))
-      return decodeURIComponent(value);
+      return [key, decodeURIComponent(value)];
   }
 
   return false;
 };
 
-const findItemKeyMatchedQuery = (query) => {
+const findItemKeyMatchedQuery = (queryKey, query) => {
   return new Promise((resolve) => {
     const result = [];
     chrome.storage.local.get(null, (items) => {
       Object.entries(items)
         .filter(
-          ([key, value]) => key.includes("2ndBrain_item__") && value === query
+          ([key, value]) =>
+            key.includes("2ndBrain_item__") && value.content === query
         )
         .forEach(([key, value]) => {
-          result.push([key, value]);
+          result.push([key, value, query, queryKey]);
         });
       resolve(result);
     });

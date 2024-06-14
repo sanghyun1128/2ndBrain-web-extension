@@ -55,7 +55,15 @@ window.onload = () => {
         return;
       }
 
-      chrome.storage.local.set({ ["2ndBrain_item__" + currentTimeToMs]: text });
+      chrome.storage.local.set({
+        ["2ndBrain_item__" + currentTimeToMs]: {
+          content: text,
+          addedTime: currentTimeToMs,
+          deletedTime: null,
+          deletedBy: null,
+          matchedText: null,
+        },
+      });
       createListItem(text, currentTimeToMs);
       textInput.value = "";
       size++;
@@ -73,9 +81,9 @@ window.onload = () => {
       Object.entries(items)
         .sort((a, b) => a[0].split("__")[1] - b[0].split("__")[1])
         .forEach(([key, value]) => {
-          if (key.includes("2ndBrain_item__")) {
+          if (key.includes("2ndBrain_item__") && value.deletedTime === null) {
             const itemAddTime = parseInt(key.split("__")[1]);
-            createListItem(value, itemAddTime);
+            createListItem(value.content, itemAddTime);
             size++;
           }
         });
@@ -116,11 +124,14 @@ const createListItem = (text, itemAddTimeToMs) => {
   deleteButton.className = "smallButton";
   deleteButton.id = "delButton_id__" + itemAddTimeToMs;
   deleteButton.onclick = () => {
-    chrome.storage.local.remove([
-      "2ndBrain_item__" + deleteButton.id.split("__")[1],
-    ]);
     chrome.storage.local.set({
-      ["2ndBrain_history__" + itemAddTimeToMs]: text,
+      ["2ndBrain_item__" + deleteButton.id.split("__")[1]]: {
+        content: text,
+        addedTime: itemAddTimeToMs,
+        deletedTime: Date.now(),
+        deletedBy: "User",
+        matchedText: null,
+      },
     });
     deleteListItem(deleteButton.id.split("__")[1]);
   };

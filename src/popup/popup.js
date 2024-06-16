@@ -45,7 +45,7 @@ window.onload = () => {
     addButton.addEventListener("click", () => {
       const text = textInput.value;
       const noSpacesText = text.replace(/\s+/g, "");
-      const currentTimeToMs = Date.now();
+      const currentTimeMs = Date.now();
       if (noSpacesText === "") {
         onTextInputWarning(WARNING_TEXT.EMPTY_INPUT_WARNING);
         return;
@@ -56,15 +56,15 @@ window.onload = () => {
       }
 
       chrome.storage.local.set({
-        ["2ndBrain_item__" + currentTimeToMs]: {
+        ["2ndBrain_item__" + currentTimeMs]: {
           content: text,
-          addedTime: currentTimeToMs,
+          addedTime: currentTimeMs,
           deletedTime: null,
           deletedBy: null,
           matchedText: null,
         },
       });
-      createListItem(text, currentTimeToMs);
+      createListItem(text, currentTimeMs);
       textInput.value = "";
       size++;
       offTextInputWarning();
@@ -82,8 +82,8 @@ window.onload = () => {
         .sort((a, b) => a[0].split("__")[1] - b[0].split("__")[1])
         .forEach(([key, value]) => {
           if (key.includes("2ndBrain_item__") && value.deletedTime === null) {
-            const itemAddTime = parseInt(key.split("__")[1]);
-            createListItem(value.content, itemAddTime);
+            const itemAddTimeMs = parseInt(key.split("__")[1]);
+            createListItem(value.content, itemAddTimeMs);
             size++;
           }
         });
@@ -113,7 +113,7 @@ window.onload = () => {
   }
 };
 
-const createListItem = (text, itemAddTimeToMs) => {
+const createListItem = (text, itemAddTimeMs) => {
   const listItem = document.createElement("li");
   const itemText = document.createElement("span");
   const deleteButton = document.createElement("button");
@@ -122,12 +122,12 @@ const createListItem = (text, itemAddTimeToMs) => {
   deleteIcon.src = "../images/x-icon.svg";
   deleteButton.appendChild(deleteIcon);
   deleteButton.className = "smallButton";
-  deleteButton.id = "delButton_id__" + itemAddTimeToMs;
+  deleteButton.id = "delButton_id__" + itemAddTimeMs;
   deleteButton.onclick = () => {
     chrome.storage.local.set({
       ["2ndBrain_item__" + deleteButton.id.split("__")[1]]: {
         content: text,
-        addedTime: itemAddTimeToMs,
+        addedTime: itemAddTimeMs,
         deletedTime: Date.now(),
         deletedBy: "User",
         matchedText: null,
@@ -136,7 +136,7 @@ const createListItem = (text, itemAddTimeToMs) => {
     deleteListItem(deleteButton.id.split("__")[1]);
   };
   itemText.textContent = text;
-  listItem.id = "listItem_id__" + itemAddTimeToMs;
+  listItem.id = "listItem_id__" + itemAddTimeMs;
   listItem.appendChild(itemText);
   listItem.appendChild(deleteButton);
 
@@ -144,8 +144,8 @@ const createListItem = (text, itemAddTimeToMs) => {
   listItem.scrollIntoView({ block: "end", behavior: "smooth" });
 };
 
-const deleteListItem = (itemAddTimeToMs) => {
-  const listItem = document.getElementById("listItem_id__" + itemAddTimeToMs);
+const deleteListItem = (itemAddTimeMs) => {
+  const listItem = document.getElementById("listItem_id__" + itemAddTimeMs);
   list.removeChild(listItem);
   size--;
 };

@@ -1,25 +1,14 @@
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url) {
-    const queryKey = getQueryFromUrl(changeInfo.url);
-    const items = await findItemKeyMatchedQuery(queryKey[0], queryKey[1]);
+    const query = getQueryFromUrl(changeInfo.url);
+    const items = await findItemKeyMatchedQuery(query[0], query[1]);
     items.forEach(([key, value, query, queryKey]) => {
       chrome.storage.local.set({
         [key]: {
           content: value.content,
           addedTime: value.addedTime,
           deletedTime: Date.now(),
-          deletedBy: () => {
-            switch (queryKey) {
-              case "q":
-                return "Google";
-              case "query":
-                return "Naver";
-              case "search_query":
-                return "Youtube";
-              default:
-                return "Unknown";
-            }
-          },
+          deletedBy: queryKey,
           matchedText: query,
         },
       });
@@ -47,7 +36,9 @@ const findItemKeyMatchedQuery = (queryKey, query) => {
       Object.entries(items)
         .filter(
           ([key, value]) =>
-            key.includes("2ndBrain_item__") && value.content === query
+            key.includes("2ndBrain_item__") &&
+            value.deletedTime === null &&
+            value.content === query
         )
         .forEach(([key, value]) => {
           result.push([key, value, query, queryKey]);

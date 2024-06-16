@@ -29,7 +29,7 @@ const createListItem = (value) => {
   itemContent.textContent = value.content;
   itemAddTime.textContent = convertMsToYMD_HS(value.addedTime);
   itemDeletedTime.textContent = convertMsToYMD_HS(value.deletedTime);
-  itemDeletedBy.textContent = value.deletedBy;
+  itemDeletedBy.textContent = convertQueryKeyToSiteName(value.deletedBy);
   itemMatchedText.textContent = value.matchedText || "X";
 
   itemContent.classList.add("itemContent");
@@ -68,4 +68,15 @@ const convertMsToYMD_HS = (milliSecond) => {
   if (minute < 10) minute = "0" + minute;
 
   return `${year}.${month}.${date} ${hour}:${minute}`;
+};
+
+const convertQueryKeyToSiteName = (queryKey) => {
+  const siteName = {
+    User: "User",
+    q: "Google",
+    query: "Naver",
+    search_query: "Youtube",
+  };
+
+  return siteName[queryKey] || "Unknown";
 };

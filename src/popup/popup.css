@@ -163,8 +163,18 @@ span {
   align-items: center;
 }
 
+#historyButton {
+  grid-column: 1 / 2;
+  grid-row: 2 / 5;
+  background-color: #196861;
+}
+#historyButton img {
+  width: 70%;
+  height: 70%;
+}
+
 #clearButton {
-  grid-column: 5 / 6;
+  grid-column: 3 / 4;
   grid-row: 2 / 5;
   background-color: #ce3d4a;
 }
@@ -172,12 +182,13 @@ span {
   width: 70%;
   height: 70%;
 }
-#historyButton {
-  grid-column: 3 / 4;
+
+#settingButton {
+  grid-column: 5 / 6;
   grid-row: 2 / 5;
   background-color: #196861;
 }
-#historyButton img {
+#settingButton img {
   width: 70%;
   height: 70%;
 }

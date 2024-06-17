@@ -1,7 +1,11 @@
-let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
-
 window.onload = () => {
   const list = document.getElementById("list");
+
+  /**
+   * chrome.storage.local에 저장된 데이터를 불러와서 createListItem 함수를 호출
+   * - chrome.storage.local에 저장된 데이터를 불러와서 삭제된 시간을 기준으로 내림차순 정렬
+   * - key가 2ndBrain_item__로 시작하고 deletedTime이 null이 아닌 경우에만 createListItem 함수를 호출
+   */
   if (list) {
     chrome.storage.local.get(null, (items) => {
       Object.entries(items)
@@ -10,7 +14,6 @@ window.onload = () => {
           if (key.includes("2ndBrain_item__") && value.deletedTime !== null) {
             const itemAddTimeMs = parseInt(key.split("__")[1]);
             createListItem(value);
-            size++;
           }
         });
     });

@@ -4,18 +4,23 @@
   <script type="module" src="setting.js"></script>
   <body>
     <div id="header">
-      <button id="historyButton" class="mediumButton">
+      <button id="historyButton" class="tab">
         <img src="../images/history-icon.svg" alt="Icon" />
       </button>
-      <button id="settingButton" class="mediumButton">
+      <button id="settingButton" class="tab">
         <img src="../images/setting-icon.svg" alt="Icon" />
       </button>
     </div>
+    <ul id="headerList">
+      <li id="headerRow">
+        <span class="headerElement">내용</span>
+        <span class="headerElement">일치된 내용</span>
+        <span class="headerElement">검색한 곳</span>
+        <span class="headerElement">추가한 날짜</span>
+        <span class="headerElement">삭제한 날짜</span>
+      </li>
+    </ul>
     <ul id="list"></ul>
-    <div id="footer">
-      <button id="clearButton" class="mediumButton">
-        <img src="../images/clear-icon.svg" alt="Icon" />
-      </button>
-      <span>최대 100개의 기록만 저장됩니다.</span>
+    <div id="footer"></div>
   </body>
 </html>

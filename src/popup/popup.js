@@ -12,6 +12,7 @@ window.onload = () => {
   const list = document.getElementById("list");
   const clearButton = document.getElementById("clearButton");
   const historyButton = document.getElementById("historyButton");
+  const settingButton = document.getElementById("settingButton");
 
   /**
    * 2nd Brain의 메모를 추가하는 로직
@@ -108,6 +109,16 @@ window.onload = () => {
    */
   if (historyButton) {
     historyButton.addEventListener("click", () => {
+      chrome.tabs.create({ url: "/src/pages/setting.html" });
+    });
+  }
+
+  /**
+   * 2nd Brain의 설정을 볼 수 있는 페이지로 이동하는 로직
+   * - settingButton을 클릭하면 setting.html로 이동
+   */
+  if (settingButton) {
+    settingButton.addEventListener("click", () => {
       chrome.tabs.create({ url: "/src/pages/setting.html" });
     });
   }

@@ -40,9 +40,9 @@ const createListItem = (value) => {
 
   listItem.appendChild(itemContent);
   listItem.appendChild(itemMatchedText);
+  listItem.appendChild(itemDeletedBy);
   listItem.appendChild(itemAddTime);
   listItem.appendChild(itemDeletedTime);
-  listItem.appendChild(itemDeletedBy);
 
   list.appendChild(listItem);
 };

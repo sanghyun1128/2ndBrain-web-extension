@@ -1,4 +1,5 @@
 const MAX_MEMO_SIZE = 10;
+const MAX_DELETED_MEMO_SIZE = 100;
 const MAX_INPUT_LENGTH = 30;
 const WARNING_TEXT = {
   MAX_MEMO_SIZE_WARNING: `메모는 최대 ${MAX_MEMO_SIZE}개까지 저장 가능합니다.`,
@@ -8,6 +9,7 @@ const WARNING_TEXT = {
 
 module.exports = {
   MAX_MEMO_SIZE,
+  MAX_DELETED_MEMO_SIZE,
   MAX_INPUT_LENGTH,
   WARNING_TEXT,
 };

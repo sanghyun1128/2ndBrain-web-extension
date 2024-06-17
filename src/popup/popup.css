@@ -90,18 +90,7 @@ ul {
   overflow-y: scroll;
 }
 ul::-webkit-scrollbar {
-  width: 6px;
-}
-ul::-webkit-scrollbar-track {
-  background: #85e1d8;
-  border-radius: 10px;
-}
-ul::-webkit-scrollbar-thumb {
-  background: #f9c22e;
-  border-radius: 10px;
-}
-ul::-webkit-scrollbar-thumb:hover {
-  background: #745c04;
+  display: none;
 }
 
 li {
@@ -177,7 +166,7 @@ span {
 #clearButton {
   grid-column: 5 / 6;
   grid-row: 2 / 5;
-  background-color: #745c04;
+  background-color: #ce3d4a;
 }
 #clearButton img {
   width: 70%;

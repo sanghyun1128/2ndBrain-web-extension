@@ -12,6 +12,13 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
           matchedText: query,
         },
       });
+      const notificationOptions = {
+        type: "basic",
+        iconUrl: "./images/project-icon-128.png",
+        title: "삭제 알림",
+        message: `2ndBrain에 저장된 "${value.content}" 항목이 삭제되었습니다.`,
+      };
+      chrome.notifications.create("2nd_brain__delete", notificationOptions);
     });
   }
 });

@@ -1,10 +1,12 @@
 import {
+  MAX_DELETED_MEMO_SIZE,
   MAX_INPUT_LENGTH,
   MAX_MEMO_SIZE,
   WARNING_TEXT,
 } from "../const/popup.const.js";
 
-let size = 0; // chrome.storage.local에 저장된 데이터의 size를 관리 위한 변수
+let size = 0; // chrome.storage.local에 저장된 데이터중 삭제되지 않은 데이터의 개수를 관리 위한 변수
+let deletedSize = 0; // chrome.storage.local에 저장된 데이터중 삭제된 데이터의 개수를 관리 위한 변수
 
 window.onload = () => {
   const textInput = document.getElementById("textInput");
@@ -23,6 +25,8 @@ window.onload = () => {
    *  - 입력된 값이 없는 경우
    *  - 메모가 maxMemoSize개 이상인 경우
    * - 이상 없으면 chrome.storage.local에 데이터를 저장하고 createListItem 함수를 호출
+   * - textInput을 초기화하고 경고 메시지를 숨김
+   * - 삭제된 메모가 maxDeletedMemoSize개 이상인 경우 가장 오래된 메모를 삭제
    */
   if (textInput && addButton) {
     textInput.focus();
@@ -69,6 +73,19 @@ window.onload = () => {
       textInput.value = "";
       size++;
       offTextInputWarning();
+
+      if (deletedSize > MAX_DELETED_MEMO_SIZE) {
+        chrome.storage.local.get(null, (items) => {
+          let item = Object.entries(items)
+            .filter(
+              ([key, value]) =>
+                key.includes("2ndBrain_item__") && value.deletedTime !== null
+            )
+            .sort((a, b) => a[1].deletedTime - b[1].deletedTime)[0];
+
+          chrome.storage.local.remove(item[0]);
+        });
+      }
     });
   }
 
@@ -80,13 +97,19 @@ window.onload = () => {
   if (list) {
     chrome.storage.local.get(null, (items) => {
       Object.entries(items)
+        .filter(([key, value]) => {
+          if (key.includes("2ndBrain_item__") && value.deletedTime === null) {
+            size++;
+            return true;
+          } else {
+            deletedSize++;
+            return false;
+          }
+        })
         .sort((a, b) => a[0].split("__")[1] - b[0].split("__")[1])
         .forEach(([key, value]) => {
-          if (key.includes("2ndBrain_item__") && value.deletedTime === null) {
-            const itemAddTimeMs = parseInt(key.split("__")[1]);
-            createListItem(value.content, itemAddTimeMs);
-            size++;
-          }
+          const itemAddTimeMs = parseInt(key.split("__")[1]);
+          createListItem(value.content, itemAddTimeMs);
         });
     });
   }

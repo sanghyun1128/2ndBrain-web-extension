@@ -132,7 +132,7 @@ window.onload = () => {
    */
   if (historyButton) {
     historyButton.addEventListener("click", () => {
-      chrome.tabs.create({ url: "/src/pages/setting.html" });
+      chrome.tabs.create({ url: "/src/pages/setting.html?page=history" });
     });
   }
 
@@ -142,7 +142,7 @@ window.onload = () => {
    */
   if (settingButton) {
     settingButton.addEventListener("click", () => {
-      chrome.tabs.create({ url: "/src/pages/setting.html" });
+      chrome.tabs.create({ url: "/src/pages/setting.html?page=setting" });
     });
   }
 };

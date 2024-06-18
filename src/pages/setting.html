@@ -11,7 +11,7 @@
         <img src="../images/setting-icon.svg" alt="Icon" />
       </button>
     </div>
-    <ul id="headerList">
+    <ul id="listHeader">
       <li id="headerRow">
         <span class="headerElement">내용</span>
         <span class="headerElement">일치된 내용</span>
@@ -21,6 +21,32 @@
       </li>
     </ul>
     <ul id="list"></ul>
+
+    <ul id="settingHeader">
+      <li id="headerRow">
+        <span class="headerElement">설정</span>
+      </li>
+    </ul>
+    <ul id="settingList">
+      <li class="settingRow">
+        <span class="settingElement">저장된 기록 삭제</span>
+        <button id="deleteButton" class="settingElement">delete</button>
+      </li>
+      <li class="settingRow">
+        <span class="settingElement">언어 변경</span>
+        <select id="languageSelect" class="settingElement">
+          <option value="ko">한국어</option>
+          <option value="en">English</option>
+        </select>
+      </li>
+      <li class="settingRow">
+        <span class="settingElement">테마 변경</span>
+        <select id="themeSelect" class="settingElement">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </li>
+    </ul>
     <div id="footer"></div>
   </body>
 </html>

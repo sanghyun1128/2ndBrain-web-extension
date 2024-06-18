@@ -87,6 +87,14 @@ ul {
   display: none;
 }
 
+#settingList {
+  border-radius: 0px 0px 30px 30px;
+  overflow-y: scroll;
+}
+#settingList::-webkit-scrollbar {
+  display: none;
+}
+
 li {
   display: grid;
   grid-template-columns: 1fr 1fr 0.3fr 1fr 1fr;

@@ -9,12 +9,14 @@ window.onload = () => {
   if (list) {
     chrome.storage.local.get(null, (items) => {
       Object.entries(items)
+        .filter(
+          ([key, value]) =>
+            key.includes("2ndBrain_item__") && value.deletedTime !== null
+        )
         .sort((a, b) => b[1].deletedTime - a[1].deletedTime)
         .forEach(([key, value]) => {
-          if (key.includes("2ndBrain_item__") && value.deletedTime !== null) {
-            const itemAddTimeMs = parseInt(key.split("__")[1]);
-            createListItem(value);
-          }
+          const itemAddTimeMs = parseInt(key.split("__")[1]);
+          createListItem(value);
         });
     });
   }

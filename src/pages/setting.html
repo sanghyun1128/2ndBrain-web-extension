@@ -12,7 +12,7 @@
       </button>
     </div>
     <ul id="listHeader">
-      <li id="headerRow">
+      <li id="listHeaderRow" class="headerRow">
         <span class="headerElement">내용</span>
         <span class="headerElement">일치된 내용</span>
         <span class="headerElement">검색한 곳</span>
@@ -23,27 +23,29 @@
     <ul id="list"></ul>
 
     <ul id="settingHeader">
-      <li id="headerRow">
+      <li id="settingHeaderRow" class="headerRow">
         <span class="headerElement">설정</span>
       </li>
     </ul>
     <ul id="settingList">
       <li class="settingRow">
-        <span class="settingElement">저장된 기록 삭제</span>
-        <button id="deleteButton" class="settingElement">delete</button>
+        <span class="settingElement">저장된 기록 모두 삭제</span>
+        <button id="clearButton" class="mediumButton">
+          <img src="../images/clear-icon.svg" alt="Icon" />
+        </button>
       </li>
       <li class="settingRow">
         <span class="settingElement">언어 변경</span>
-        <select id="languageSelect" class="settingElement">
+        <select id="languageSelect">
           <option value="ko">한국어</option>
           <option value="en">English</option>
         </select>
       </li>
       <li class="settingRow">
         <span class="settingElement">테마 변경</span>
-        <select id="themeSelect" class="settingElement">
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
+        <select id="themeSelect">
+          <option value="light">라이트</option>
+          <option value="dark">다크</option>
         </select>
       </li>
     </ul>

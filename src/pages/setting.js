@@ -59,6 +59,7 @@ const createListItem = (value) => {
   itemDeletedTime.classList.add("itemTime");
   itemDeletedBy.classList.add("itemDeletedBy");
 
+  listItem.classList.add("listRow");
   listItem.appendChild(itemContent);
   listItem.appendChild(itemMatchedText);
   listItem.appendChild(itemDeletedBy);

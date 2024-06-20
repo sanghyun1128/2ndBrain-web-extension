@@ -33,16 +33,13 @@ input {
   border: 0;
   border-radius: 30px;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  box-shadow: 0 4px 15px 0 #2db7aa;
   width: 100%;
 }
 input.light {
   background-color: #e1f7f5;
-  box-shadow: 0 4px 15px 0 #2db7aa;
 }
 input.dark {
   background-color: #28a398;
-  box-shadow: 0 4px 15px 0 #0a2826;
 }
 input:focus {
   outline: none;
@@ -167,7 +164,6 @@ span.dark {
   border: none;
   border-radius: 30px;
   padding: 10%;
-  box-shadow: 0 4px 15px 0 #2db7aa;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
@@ -182,12 +178,6 @@ span.dark {
 .mediumButton img {
   width: 70%;
   height: 70%;
-}
-.mediumButton.light {
-  box-shadow: 0 4px 15px 0 #2db7aa;
-}
-.mediumButton.dark {
-  box-shadow: 0 4px 15px 0 #0a2826;
 }
 
 #footer {

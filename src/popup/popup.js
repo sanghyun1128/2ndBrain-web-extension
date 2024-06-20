@@ -16,6 +16,18 @@ window.onload = () => {
   const historyButton = document.getElementById("historyButton");
   const settingButton = document.getElementById("settingButton");
 
+  chrome.storage.local.get("2ndBrain_theme", (items) => {
+    let theme = items["2ndBrain_theme"];
+    document.body.classList.add(theme);
+    textInput.classList.add(theme);
+    addButton.classList.add(theme);
+    list.classList.add(theme);
+    clearButton.classList.add(theme);
+    historyButton.classList.add(theme);
+    settingButton.classList.add(theme);
+    return items["2ndBrain_theme"];
+  });
+
   /**
    * 2nd Brain의 메모를 추가하는 로직
    * - 실행시 textInput으로 커서를 이동
@@ -187,6 +199,12 @@ const createListItem = (text, itemAddTimeMs) => {
   listItem.id = "listItem_id__" + itemAddTimeMs;
   listItem.appendChild(itemText);
   listItem.appendChild(deleteButton);
+  chrome.storage.local.get("2ndBrain_theme", (items) => {
+    let theme = items["2ndBrain_theme"];
+    listItem.classList.add(theme);
+    itemText.classList.add(theme);
+    return items["2ndBrain_theme"];
+  });
 
   list.appendChild(listItem);
   listItem.scrollIntoView({ block: "end", behavior: "smooth" });

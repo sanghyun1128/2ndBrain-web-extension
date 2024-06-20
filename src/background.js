@@ -1,3 +1,8 @@
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.storage.local.clear();
+  chrome.storage.local.set({ "2ndBrain_theme": "light" });
+});
+
 chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (changeInfo.url) {
     const query = getQueryFromUrl(changeInfo.url);

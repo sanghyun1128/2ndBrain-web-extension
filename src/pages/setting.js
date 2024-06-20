@@ -3,7 +3,25 @@ window.onload = () => {
   const historyButton = document.getElementById("historyButton");
   const settingButton = document.getElementById("settingButton");
   const clearButton = document.getElementById("clearButton");
+  const themeSelect = document.getElementById("themeSelect");
 
+  chrome.storage.local.get("2ndBrain_theme", (items) => {
+    let theme = items["2ndBrain_theme"];
+    themeSelect.value = theme;
+    document.body.classList.add(theme);
+    clearButton.classList.add(theme);
+
+    let settingRows = document.getElementsByClassName("settingRow");
+    let settingElements = document.getElementsByClassName("settingElement");
+    for (let i = 0; i < settingRows.length; i++) {
+      settingRows[i].classList.add(theme);
+    }
+    for (let i = 0; i < settingElements.length; i++) {
+      settingElements[i].classList.add(theme);
+    }
+
+    return items["2ndBrain_theme"];
+  });
   /**
    * chrome.storage.local에 저장된 데이터를 불러와서 createListItem 함수를 호출
    * - chrome.storage.local에 저장된 데이터를 불러와서 삭제된 시간을 기준으로 내림차순 정렬
@@ -73,10 +91,21 @@ window.onload = () => {
       });
     });
   }
+
+  /**
+   * themeSelect 변경 시 2nd Brain의 테마를 변경하는 이벤트 리스너 등록
+   * - themeSelect의 value를 chrome.storage.local에 저장
+   * - 변경된 테마를 적용하기 위해 페이지 리로드
+   */
+  if (themeSelect) {
+    themeSelect.addEventListener("change", () => {
+      chrome.storage.local.set({ "2ndBrain_theme": themeSelect.value });
+      location.reload();
+    });
+  }
 };
 
 const createListItem = (value) => {
-  const list = document.getElementById("list");
   const listItem = document.createElement("li");
   const itemContent = document.createElement("span");
   const itemAddTime = document.createElement("span");
@@ -102,6 +131,16 @@ const createListItem = (value) => {
   listItem.appendChild(itemDeletedBy);
   listItem.appendChild(itemAddTime);
   listItem.appendChild(itemDeletedTime);
+  chrome.storage.local.get("2ndBrain_theme", (items) => {
+    let theme = items["2ndBrain_theme"];
+    listItem.classList.add(theme);
+    itemContent.classList.add(theme);
+    itemMatchedText.classList.add(theme);
+    itemAddTime.classList.add(theme);
+    itemDeletedTime.classList.add(theme);
+    itemDeletedBy.classList.add(theme);
+    return items["2ndBrain_theme"];
+  });
 
   list.appendChild(listItem);
 };
@@ -140,7 +179,7 @@ const convertQueryKeyToSiteName = (queryKey) => {
   return siteName[queryKey] || "Unknown";
 };
 
-const showHistory = (historyButton, settingButton) => {
+const showHistory = () => {
   const listHeader = document.getElementById("listHeader");
   const list = document.getElementById("list");
   const settingHeader = document.getElementById("settingHeader");

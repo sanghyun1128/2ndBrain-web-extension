@@ -10,6 +10,12 @@ body {
   justify-items: stretch;
   align-items: center;
 }
+body.light {
+  background-color: #adeae5;
+}
+body.dark {
+  background-color: #14514c;
+}
 
 #header {
   grid-column: 1 / 6;
@@ -27,9 +33,16 @@ input {
   border: 0;
   border-radius: 30px;
   padding: 0.5rem 1rem 0.5rem 1rem;
-  background-color: #e1f7f5;
   box-shadow: 0 4px 15px 0 #2db7aa;
   width: 100%;
+}
+input.light {
+  background-color: #e1f7f5;
+  box-shadow: 0 4px 15px 0 #2db7aa;
+}
+input.dark {
+  background-color: #28a398;
+  box-shadow: 0 4px 15px 0 #0a2826;
 }
 input:focus {
   outline: none;
@@ -74,9 +87,11 @@ input.shake {
   grid-row: 1 / 4;
   background-color: #196861;
 }
-#addButton img {
-  width: 70%;
-  height: 70%;
+#addButton.light {
+  background-color: #196861;
+}
+#addButton.dark {
+  background-color: #0a2826;
 }
 
 ul {
@@ -106,11 +121,23 @@ li {
   border-radius: 30px;
   padding: 0.5rem 0.5rem 0.5rem 1rem;
 }
+li.light {
+  background-color: #85e1d8;
+}
+li.dark {
+  background-color: #1e7a72;
+}
 
 span {
   flex-grow: 1;
   font-size: 13px;
   color: #196861;
+}
+span.light {
+  color: #196861;
+}
+span.dark {
+  color: #0a2826;
 }
 
 .smallButton {
@@ -152,6 +179,16 @@ span {
 .mediumButton:focus {
   outline: none;
 }
+.mediumButton img {
+  width: 70%;
+  height: 70%;
+}
+.mediumButton.light {
+  box-shadow: 0 4px 15px 0 #2db7aa;
+}
+.mediumButton.dark {
+  box-shadow: 0 4px 15px 0 #0a2826;
+}
 
 #footer {
   grid-column: 1 / 6;
@@ -166,29 +203,32 @@ span {
 #historyButton {
   grid-column: 1 / 2;
   grid-row: 2 / 5;
+}
+#historyButton.light {
   background-color: #196861;
 }
-#historyButton img {
-  width: 70%;
-  height: 70%;
+#historyButton.dark {
+  background-color: #0a2826;
 }
 
 #clearButton {
   grid-column: 3 / 4;
   grid-row: 2 / 5;
+}
+#clearButton.light {
   background-color: #ce3d4a;
 }
-#clearButton img {
-  width: 70%;
-  height: 70%;
+#clearButton.dark {
+  background-color: #7e383e;
 }
 
 #settingButton {
   grid-column: 5 / 6;
   grid-row: 2 / 5;
+}
+#settingButton.light {
   background-color: #196861;
 }
-#settingButton img {
-  width: 70%;
-  height: 70%;
+#settingButton.dark {
+  background-color: #0a2826;
 }

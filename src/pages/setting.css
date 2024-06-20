@@ -2,13 +2,18 @@ body {
   z-index: 1;
   margin: 5%;
   border: none;
-  background-color: #adeae5;
   display: grid;
   grid-template-rows: 1fr 1fr 8fr 1fr;
   justify-items: center;
   align-items: center;
   min-width: 800px;
   min-height: 500px;
+}
+body.light {
+  background-color: #adeae5;
+}
+body.dark {
+  background-color: #14514c;
 }
 
 #header {
@@ -44,12 +49,10 @@ body {
 #historyButton {
   z-index: 3;
   grid-column: 1 / 2;
-  background-color: #196861;
 }
 #settingButton {
   z-index: 2;
   grid-column: 2 / 3;
-  background-color: #196861;
 }
 
 ul {
@@ -59,7 +62,6 @@ ul {
   margin: 0;
   padding: 0;
   background-color: #28a398;
-  box-shadow: 0 5px 5px 0 #2db7aa;
   list-style-type: none;
 }
 
@@ -70,10 +72,22 @@ li {
   border-radius: 30px;
   gap: 20px;
 }
+li.light {
+  background-color: #85e1d8;
+}
+li.dark {
+  background-color: #1e7a72;
+}
 
 span {
   font-size: 13px;
   color: #196861;
+}
+span.light {
+  color: #196861;
+}
+span.dark {
+  color: #0a2826;
 }
 
 .headerRow {
@@ -104,7 +118,6 @@ span {
 .listRow {
   padding: 1rem 1rem 1rem 1rem;
   grid-template-columns: 1fr 1fr 0.3fr 1fr 1fr;
-  background-color: #85e1d8;
   place-items: center center;
 }
 
@@ -118,7 +131,6 @@ span {
 .settingRow {
   height: 100px;
   grid-template-columns: 1fr 1fr;
-  background-color: #85e1d8;
   place-items: center center;
 }
 
@@ -126,7 +138,6 @@ span {
   cursor: pointer;
   border: none;
   border-radius: 30px;
-  box-shadow: 0 4px 15px 0 #2db7aa;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
@@ -147,6 +158,12 @@ span {
 #clearButton img {
   width: 50%;
   height: 50%;
+}
+#clearButton.light {
+  background-color: #ce3d4a;
+}
+#clearButton.dark {
+  background-color: #7e383e;
 }
 
 select {

@@ -1,6 +1,27 @@
 window.onload = () => {
+  const list = document.getElementById("list");
   const historyButton = document.getElementById("historyButton");
   const settingButton = document.getElementById("settingButton");
+  const clearButton = document.getElementById("clearButton");
+
+  /**
+   * chrome.storage.local에 저장된 데이터를 불러와서 createListItem 함수를 호출
+   * - chrome.storage.local에 저장된 데이터를 불러와서 삭제된 시간을 기준으로 내림차순 정렬
+   * - key가 2ndBrain_item__로 시작하고 deletedTime이 null이 아닌 경우에만 createListItem 함수를 호출
+   */
+  if (list) {
+    chrome.storage.local.get(null, (items) => {
+      Object.entries(items)
+        .filter(
+          ([key, value]) =>
+            key.includes("2ndBrain_item__") && value.deletedTime !== null
+        )
+        .sort((a, b) => b[1].deletedTime - a[1].deletedTime)
+        .forEach(([key, value]) => {
+          createListItem(value);
+        });
+    });
+  }
 
   /**
    * query에 따라서 setting 또는 history를 보여줌
@@ -34,6 +55,22 @@ window.onload = () => {
       showSetting();
       historyButton.style.backgroundColor = "#196861";
       settingButton.style.backgroundColor = "#28a398";
+    });
+  }
+
+  /**
+   * clearButton 클릭 시 2nd Brain의 히스토리를 모두 삭제하는 이벤트 리스너 등록
+   * - chrome.storage.local에서 완료된 모든 메모를 삭제
+   */
+  if (clearButton) {
+    clearButton.addEventListener("click", () => {
+      chrome.storage.local.get(null, (items) => {
+        Object.entries(items).forEach(([key, value]) => {
+          if (key.includes("2ndBrain_item__") && value.deletedTime !== null) {
+            chrome.storage.local.remove(key);
+          }
+        });
+      });
     });
   }
 };
@@ -113,24 +150,6 @@ const showHistory = (historyButton, settingButton) => {
   list.style.display = "block";
   settingHeader.style.display = "none";
   settingList.style.display = "none";
-
-  /**
-   * chrome.storage.local에 저장된 데이터를 불러와서 createListItem 함수를 호출
-   * - chrome.storage.local에 저장된 데이터를 불러와서 삭제된 시간을 기준으로 내림차순 정렬
-   * - key가 2ndBrain_item__로 시작하고 deletedTime이 null이 아닌 경우에만 createListItem 함수를 호출
-   */
-  chrome.storage.local.get(null, (items) => {
-    Object.entries(items)
-      .filter(
-        ([key, value]) =>
-          key.includes("2ndBrain_item__") && value.deletedTime !== null
-      )
-      .sort((a, b) => b[1].deletedTime - a[1].deletedTime)
-      .forEach(([key, value]) => {
-        const itemAddTimeMs = parseInt(key.split("__")[1]);
-        createListItem(value);
-      });
-  });
 };
 
 const showSetting = () => {

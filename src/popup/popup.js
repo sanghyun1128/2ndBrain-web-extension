@@ -115,12 +115,26 @@ window.onload = () => {
   }
 
   /**
-   * 2nd Brain의 메모를 모두 삭제하는 로직
-   * - clearButton을 클릭하면 chrome.storage.local를 비우고, 화면을 새로고침
+   * 2nd Brain의 메모를 모두 완료로 처리하는 로직
+   * - clearButton을 클릭하면 chrome.storage.local에서 아직 완료되지 않은 모든 메모를 완료로 처리
    */
   if (clearButton) {
     clearButton.addEventListener("click", () => {
-      chrome.storage.local.clear();
+      chrome.storage.local.get(null, (items) => {
+        Object.entries(items).filter(([key, value]) => {
+          if (key.includes("2ndBrain_item__") && value.deletedTime === null) {
+            chrome.storage.local.set({
+              [key]: {
+                content: value.content,
+                addedTime: value.addedTime,
+                deletedTime: Date.now(),
+                deletedBy: "User",
+                matchedText: null,
+              },
+            });
+          }
+        });
+      });
       size = 0;
       list.innerHTML = "";
     });

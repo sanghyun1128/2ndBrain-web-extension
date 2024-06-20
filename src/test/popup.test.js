@@ -40,6 +40,7 @@ describe("2ndBrain Chrome Extension popup", () => {
     const list = await extensionPage.$("#list");
     const historyButton = await extensionPage.$("#historyButton");
     const clearButton = await extensionPage.$("#clearButton");
+    const settingButton = await extensionPage.$("#settingButton");
 
     expect(textInput).not.toBeNull();
     expect(warningMessage).not.toBeNull();
@@ -47,6 +48,7 @@ describe("2ndBrain Chrome Extension popup", () => {
     expect(list).not.toBeNull();
     expect(historyButton).not.toBeNull();
     expect(clearButton).not.toBeNull();
+    expect(settingButton).not.toBeNull();
   });
 
   it("should add and delete a item", async () => {

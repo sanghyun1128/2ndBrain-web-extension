@@ -116,7 +116,7 @@ span {
   display: none;
 }
 .settingRow {
-  height: 20%;
+  height: 100px;
   grid-template-columns: 1fr 1fr;
   background-color: #85e1d8;
   place-items: center center;

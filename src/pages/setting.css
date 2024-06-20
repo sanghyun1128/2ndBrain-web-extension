@@ -44,7 +44,7 @@ body {
 #historyButton {
   z-index: 3;
   grid-column: 1 / 2;
-  background-color: #28a398;
+  background-color: #196861;
 }
 #settingButton {
   z-index: 2;

@@ -5,6 +5,11 @@ window.onload = () => {
   const clearButton = document.getElementById("clearButton");
   const themeSelect = document.getElementById("themeSelect");
 
+  /**
+   * chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 테마를 적용
+   * - chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 themeSelect의 value로 설정
+   * - body, clearButton, settingRow, settingElement에 테마 적용
+   */
   chrome.storage.local.get("2ndBrain_theme", (items) => {
     let theme = items["2ndBrain_theme"];
     themeSelect.value = theme;
@@ -131,6 +136,8 @@ const createListItem = (value) => {
   listItem.appendChild(itemDeletedBy);
   listItem.appendChild(itemAddTime);
   listItem.appendChild(itemDeletedTime);
+
+  // chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 각각의 요소에 테마를 적용
   chrome.storage.local.get("2ndBrain_theme", (items) => {
     let theme = items["2ndBrain_theme"];
     listItem.classList.add(theme);

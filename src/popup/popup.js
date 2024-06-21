@@ -16,6 +16,12 @@ window.onload = () => {
   const historyButton = document.getElementById("historyButton");
   const settingButton = document.getElementById("settingButton");
 
+  /**
+   * chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 테마를 적용
+   * - chrome.storage.local에 저장된 2ndBrain_theme을 불러와서
+   *    body, textInput, addButton, list, clearButton, historyButton, settingButton
+   *    에 테마 적용
+   */
   chrome.storage.local.get("2ndBrain_theme", (items) => {
     let theme = items["2ndBrain_theme"];
     document.body.classList.add(theme);

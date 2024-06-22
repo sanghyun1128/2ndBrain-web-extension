@@ -4,6 +4,7 @@ window.onload = () => {
   const settingButton = document.getElementById("settingButton");
   const clearButton = document.getElementById("clearButton");
   const themeSelect = document.getElementById("themeSelect");
+  const languageSelect = document.getElementById("languageSelect");
 
   /**
    * chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 테마를 적용
@@ -103,6 +104,16 @@ window.onload = () => {
     themeSelect.addEventListener("change", () => {
       chrome.storage.local.set({ "2ndBrain_theme": themeSelect.value });
       location.reload();
+    });
+  }
+
+  /**
+   * languageSelect 변경 시 2nd Brain의 언어를 변경하는 이벤트 리스너 등록
+   * - languageSelect의 value를 chrome.storage.local에 저장
+   */
+  if (languageSelect) {
+    languageSelect.addEventListener("change", () => {
+      chrome.storage.local.set({ "2ndBrain_language": languageSelect.value });
     });
   }
 };

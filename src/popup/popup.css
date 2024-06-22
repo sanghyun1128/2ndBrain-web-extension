@@ -82,7 +82,6 @@ input.shake {
 #addButton {
   grid-column: 5 / 6;
   grid-row: 1 / 4;
-  background-color: #196861;
 }
 #addButton.light {
   background-color: #196861;
@@ -192,6 +191,7 @@ span.dark {
   padding: 10%;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
+  background-color: transparent;
 }
 .mediumButton:hover {
   filter: brightness(0.8);

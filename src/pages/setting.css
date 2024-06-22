@@ -82,17 +82,22 @@ li.dark {
 
 span {
   font-size: 13px;
-  color: #196861;
 }
 span.light {
-  color: #196861;
+  color: #0a2826;
 }
 span.dark {
-  color: #0a2826;
+  color: #adeae5;
 }
 
 .headerRow {
   background-color: #196861;
+}
+.headerRow.light {
+  background-color: #196861;
+}
+.headerRow.dark {
+  background-color: #0a2826;
 }
 #listHeaderRow {
   padding: 1rem 1rem 1rem 1rem;
@@ -105,8 +110,11 @@ span.dark {
   place-items: center center;
 }
 
-.headerElement {
+.headerElement.light {
   color: #e1f7f5;
+}
+.headerElement.dark {
+  color: #adeae5;
 }
 
 #list {

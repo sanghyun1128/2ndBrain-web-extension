@@ -69,15 +69,11 @@ window.onload = () => {
    */
   if (historyButton && settingButton) {
     historyButton.addEventListener("click", () => {
-      showHistory();
-      historyButton.style.backgroundColor = "#28a398";
-      settingButton.style.backgroundColor = "#196861";
+      chrome.tabs.update({ url: "/src/pages/setting.html?page=history" });
     });
 
     settingButton.addEventListener("click", () => {
-      showSetting();
-      historyButton.style.backgroundColor = "#196861";
-      settingButton.style.backgroundColor = "#28a398";
+      chrome.tabs.update({ url: "/src/pages/setting.html?page=setting" });
     });
   }
 
@@ -94,6 +90,7 @@ window.onload = () => {
           }
         });
       });
+      chrome.tabs.update({ url: "/src/pages/setting.html?page=history" });
     });
   }
 

@@ -214,11 +214,15 @@ const createListItem = (text, itemAddTimeMs) => {
 
   list.appendChild(listItem);
   listItem.scrollIntoView({ block: "end", behavior: "smooth" });
+  listItem.classList.add("slideFadeIn");
 };
 
 const deleteListItem = (itemAddTimeMs) => {
   const listItem = document.getElementById("listItem_id__" + itemAddTimeMs);
-  list.removeChild(listItem);
+  listItem.classList.add("slideFadeOut");
+  listItem.addEventListener("animationend", () => {
+    listItem.remove();
+  });
   size--;
 };
 

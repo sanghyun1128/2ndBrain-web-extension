@@ -150,11 +150,10 @@ window.onload = () => {
                 matchedText: null,
               },
             });
+            deleteListItem(key.split("__")[1]);
           }
         });
       });
-      size = 0;
-      list.innerHTML = "";
     });
   }
 

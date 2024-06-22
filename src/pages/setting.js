@@ -1,4 +1,18 @@
+import {
+  HISTORY_COLUMN_NAME_KO,
+  HISTORY_COLUMN_NAME_EN,
+  SETTING_PAGE_NAME_KO,
+  SETTING_PAGE_NAME_EN,
+  SETTING_CLEAR_ALL_BUTTON_KO,
+  SETTING_CLEAR_ALL_BUTTON_EN,
+  SETTING_THEME_SELECT_KO,
+  SETTING_THEME_SELECT_EN,
+  SETTING_LANGUAGE_SELECT_KO,
+  SETTING_LANGUAGE_SELECT_EN,
+} from "../const/setting.const.js";
+
 window.onload = () => {
+  const listHeader = document.getElementById("listHeader");
   const list = document.getElementById("list");
   const historyButton = document.getElementById("historyButton");
   const settingButton = document.getElementById("settingButton");
@@ -7,9 +21,9 @@ window.onload = () => {
   const languageSelect = document.getElementById("languageSelect");
 
   /**
-   * chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 테마를 적용
+   * 테마 설정
    * - chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 themeSelect의 value로 설정
-   * - body, clearButton, settingRow, settingElement에 테마 적용
+   * - body, clearButton, settingRow, settingElement에 테마 설정
    */
   chrome.storage.local.get("2ndBrain_theme", (items) => {
     let theme = items["2ndBrain_theme"];
@@ -19,15 +33,66 @@ window.onload = () => {
 
     let settingRows = document.getElementsByClassName("settingRow");
     let settingElements = document.getElementsByClassName("settingElement");
+    let headerElements = document.getElementsByClassName("headerElement");
+
     for (let i = 0; i < settingRows.length; i++) {
       settingRows[i].classList.add(theme);
     }
     for (let i = 0; i < settingElements.length; i++) {
       settingElements[i].classList.add(theme);
     }
+    for (let i = 0; i < headerElements.length; i++) {
+      headerElements[i].classList.add(theme);
+    }
 
     return items["2ndBrain_theme"];
   });
+
+  /**
+   * 언어 설정
+   * - chrome.storage.local에 저장된 2ndBrain_language를 불러와서 languageSelect의 value로 설정
+   */
+  chrome.storage.local.get("2ndBrain_language", (items) => {
+    let language = items["2ndBrain_language"];
+    languageSelect.value = language;
+
+    let historyColumnName =
+      language === "ko" ? HISTORY_COLUMN_NAME_KO : HISTORY_COLUMN_NAME_EN;
+    let listHeaderRow = createListItem(
+      {
+        content: historyColumnName.CONTENT,
+        matchedText: historyColumnName.MATCHED_TEXT,
+        deletedBy: historyColumnName.DELETED_BY,
+        addedTime: historyColumnName.ADDED_TIME,
+        deletedTime: historyColumnName.DELETED_TIME,
+      },
+      true
+    );
+    listHeader.appendChild(listHeaderRow);
+
+    let settingHeaderRow = document.getElementById("settingHeaderRow");
+    settingHeaderRow.children[0].textContent =
+      language === "ko" ? SETTING_PAGE_NAME_KO : SETTING_PAGE_NAME_EN;
+
+    let clearButtonText = document.getElementById("clearButtonText");
+    clearButtonText.textContent =
+      language === "ko"
+        ? SETTING_CLEAR_ALL_BUTTON_KO
+        : SETTING_CLEAR_ALL_BUTTON_EN;
+
+    let themeSelectText = document.getElementById("themeSelectText");
+    themeSelectText.textContent =
+      language === "ko" ? SETTING_THEME_SELECT_KO : SETTING_THEME_SELECT_EN;
+
+    let languageSelectText = document.getElementById("languageSelectText");
+    languageSelectText.textContent =
+      language === "ko"
+        ? SETTING_LANGUAGE_SELECT_KO
+        : SETTING_LANGUAGE_SELECT_EN;
+
+    return items["2ndBrain_language"];
+  });
+
   /**
    * chrome.storage.local에 저장된 데이터를 불러와서 createListItem 함수를 호출
    * - chrome.storage.local에 저장된 데이터를 불러와서 삭제된 시간을 기준으로 내림차순 정렬
@@ -42,7 +107,8 @@ window.onload = () => {
         )
         .sort((a, b) => b[1].deletedTime - a[1].deletedTime)
         .forEach(([key, value]) => {
-          createListItem(value);
+          let listItem = createListItem(value);
+          list.appendChild(listItem);
         });
     });
   }
@@ -114,11 +180,12 @@ window.onload = () => {
   if (languageSelect) {
     languageSelect.addEventListener("change", () => {
       chrome.storage.local.set({ "2ndBrain_language": languageSelect.value });
+      location.reload();
     });
   }
 };
 
-const createListItem = (value) => {
+const createListItem = (value, isHeader = false) => {
   const listItem = document.createElement("li");
   const itemContent = document.createElement("span");
   const itemAddTime = document.createElement("span");
@@ -126,24 +193,35 @@ const createListItem = (value) => {
   const itemDeletedBy = document.createElement("span");
   const itemMatchedText = document.createElement("span");
 
-  itemContent.textContent = value.content;
-  itemAddTime.textContent = convertMsToYMD_HS(value.addedTime);
-  itemDeletedTime.textContent = convertMsToYMD_HS(value.deletedTime);
-  itemDeletedBy.textContent = convertQueryKeyToSiteName(value.deletedBy);
-  itemMatchedText.textContent = value.matchedText || "X";
+  if (isHeader) {
+    itemContent.textContent = value.content;
+    itemAddTime.textContent = value.addedTime;
+    itemDeletedTime.textContent = value.deletedTime;
+    itemDeletedBy.textContent = value.deletedBy;
+    itemMatchedText.textContent = value.matchedText;
+  } else {
+    itemContent.textContent = value.content;
+    itemAddTime.textContent = convertMsToYMD_HS(value.addedTime);
+    itemDeletedTime.textContent = convertMsToYMD_HS(value.deletedTime);
+    itemDeletedBy.textContent = convertQueryKeyToSiteName(value.deletedBy);
+    itemMatchedText.textContent = value.matchedText || "X";
+  }
 
-  itemContent.classList.add("itemContent");
-  itemMatchedText.classList.add("itemMatchedText");
-  itemAddTime.classList.add("itemTime");
-  itemDeletedTime.classList.add("itemTime");
-  itemDeletedBy.classList.add("itemDeletedBy");
-
-  listItem.classList.add("listRow");
   listItem.appendChild(itemContent);
   listItem.appendChild(itemMatchedText);
   listItem.appendChild(itemDeletedBy);
   listItem.appendChild(itemAddTime);
   listItem.appendChild(itemDeletedTime);
+
+  if (isHeader) {
+    listItem.className = "headerRow";
+    listItem.id = "listHeaderRow";
+    for (let i = 0; i < listItem.children.length; i++) {
+      listItem.children[i].className = "headerElement";
+    }
+  } else {
+    listItem.className = "listRow";
+  }
 
   // chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 각각의 요소에 테마를 적용
   chrome.storage.local.get("2ndBrain_theme", (items) => {
@@ -157,7 +235,7 @@ const createListItem = (value) => {
     return items["2ndBrain_theme"];
   });
 
-  list.appendChild(listItem);
+  return listItem;
 };
 
 const deleteListItem = (itemAddTimeMs) => {

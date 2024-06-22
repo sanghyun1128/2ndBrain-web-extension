@@ -3,9 +3,8 @@ const path = require("path");
 const {
   MAX_INPUT_LENGTH,
   MAX_MEMO_SIZE,
-  WARNING_TEXT,
+  WARNING_TEXT_EN,
 } = require("./const/popup.const.js");
-const exp = require("constants");
 
 describe("2ndBrain Chrome Extension popup", () => {
   let browser;
@@ -66,7 +65,13 @@ describe("2ndBrain Chrome Extension popup", () => {
 
     const deleteButton = await extensionPage.$("#list li button");
     await deleteButton.click();
-    expect(await extensionPage.$("#list li")).toBeNull();
+
+    await extensionPage.waitForFunction(() => {
+      return document.querySelector("#list li") === null;
+    });
+
+    const listItemAfterDeletion = await extensionPage.$("#list li");
+    expect(listItemAfterDeletion).toBeNull();
   });
 
   it("should not add an empty task", async () => {
@@ -77,7 +82,7 @@ describe("2ndBrain Chrome Extension popup", () => {
       "#warningMessage",
       (el) => el.textContent
     );
-    expect(warningMessage).toBe(WARNING_TEXT.EMPTY_INPUT_WARNING);
+    expect(warningMessage).toBe(WARNING_TEXT_EN.EMPTY_INPUT_WARNING);
   });
 
   it("should show a warning when input length exceeds max", async () => {
@@ -95,7 +100,7 @@ describe("2ndBrain Chrome Extension popup", () => {
       "#warningMessage",
       (el) => el.textContent
     );
-    expect(warningMessage).toBe(WARNING_TEXT.MAX_INPUT_LENGTH_WARNING);
+    expect(warningMessage).toBe(WARNING_TEXT_EN.MAX_INPUT_LENGTH_WARNING);
 
     await addButton.click();
   });
@@ -103,6 +108,10 @@ describe("2ndBrain Chrome Extension popup", () => {
   it("should clear all items", async () => {
     const clearButton = await extensionPage.$("#clearButton");
     await clearButton.click();
+
+    await extensionPage.waitForFunction(() => {
+      return document.querySelectorAll("#list li").length === 0;
+    });
 
     const listItems = await extensionPage.$$("#list li");
     expect(listItems.length).toBe(0);
@@ -121,7 +130,7 @@ describe("2ndBrain Chrome Extension popup", () => {
       "#warningMessage",
       (el) => el.textContent
     );
-    expect(warningMessage).toBe(WARNING_TEXT.MAX_MEMO_SIZE_WARNING);
+    expect(warningMessage).toBe(WARNING_TEXT_EN.MAX_MEMO_SIZE_WARNING);
 
     const listItems = await extensionPage.$$("#list li");
     expect(listItems.length).toBe(MAX_MEMO_SIZE);

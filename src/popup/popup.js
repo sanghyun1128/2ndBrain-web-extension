@@ -2,7 +2,8 @@ import {
   MAX_DELETED_MEMO_SIZE,
   MAX_INPUT_LENGTH,
   MAX_MEMO_SIZE,
-  WARNING_TEXT,
+  WARNING_TEXT_KO,
+  WARNING_TEXT_EN,
 } from "../const/popup.const.js";
 
 let size = 0; // chrome.storage.local에 저장된 데이터중 삭제되지 않은 데이터의 개수를 관리 위한 변수
@@ -17,10 +18,10 @@ window.onload = () => {
   const settingButton = document.getElementById("settingButton");
 
   /**
-   * chrome.storage.local에 저장된 2ndBrain_theme을 불러와서 테마를 적용
+   * 테마 설정
    * - chrome.storage.local에 저장된 2ndBrain_theme을 불러와서
    *    body, textInput, addButton, list, clearButton, historyButton, settingButton
-   *    에 테마 적용
+   *    에 테마 설정
    */
   chrome.storage.local.get("2ndBrain_theme", (items) => {
     let theme = items["2ndBrain_theme"];
@@ -48,67 +49,77 @@ window.onload = () => {
    */
   if (textInput && addButton) {
     textInput.focus();
+    /**
+     * 언어 설정
+     * - chrome.storage.local에 저장된 2ndBrain_language를 불러와서 warningMessage에 언어 설정
+     */
+    chrome.storage.local.get("2ndBrain_language", (items) => {
+      let language = items["2ndBrain_language"];
+      let warningText = language === "ko" ? WARNING_TEXT_KO : WARNING_TEXT_EN;
 
-    textInput.addEventListener("keypress", function (event) {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        addButton.click();
-      }
-    });
-
-    textInput.addEventListener("input", () => {
-      if (textInput.value.length > MAX_INPUT_LENGTH) {
-        textInput.value = textInput.value.substring(0, MAX_INPUT_LENGTH);
-        onTextInputWarning(WARNING_TEXT.MAX_INPUT_LENGTH_WARNING);
-      } else {
-        offTextInputWarning();
-      }
-    });
-
-    addButton.addEventListener("click", () => {
-      const text = textInput.value;
-      const noSpacesText = text.replace(/\s+/g, "");
-      const currentTimeMs = Date.now();
-      if (noSpacesText === "") {
-        onTextInputWarning(WARNING_TEXT.EMPTY_INPUT_WARNING);
-        return;
-      }
-      if (size >= MAX_MEMO_SIZE) {
-        onTextInputWarning(WARNING_TEXT.MAX_MEMO_SIZE_WARNING);
-        return;
-      }
-
-      chrome.storage.local.set({
-        ["2ndBrain_item__" + currentTimeMs]: {
-          content: text,
-          addedTime: currentTimeMs,
-          deletedTime: null,
-          deletedBy: null,
-          matchedText: null,
-        },
+      textInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          addButton.click();
+        }
       });
-      createListItem(text, currentTimeMs);
-      textInput.value = "";
-      size++;
-      offTextInputWarning();
 
-      if (deletedSize > MAX_DELETED_MEMO_SIZE) {
-        chrome.storage.local.get(null, (items) => {
-          let item = Object.entries(items)
-            .filter(
-              ([key, value]) =>
-                key.includes("2ndBrain_item__") && value.deletedTime !== null
-            )
-            .sort((a, b) => a[1].deletedTime - b[1].deletedTime)[0];
+      textInput.addEventListener("input", () => {
+        if (textInput.value.length > MAX_INPUT_LENGTH) {
+          textInput.value = textInput.value.substring(0, MAX_INPUT_LENGTH);
+          onTextInputWarning(warningText.MAX_INPUT_LENGTH_WARNING);
+        } else {
+          offTextInputWarning();
+        }
+      });
 
-          chrome.storage.local.remove(item[0]);
+      addButton.addEventListener("click", () => {
+        const text = textInput.value;
+        const noSpacesText = text.replace(/\s+/g, "");
+        const currentTimeMs = Date.now();
+        if (noSpacesText === "") {
+          onTextInputWarning(warningText.EMPTY_INPUT_WARNING);
+          return;
+        }
+        if (size >= MAX_MEMO_SIZE) {
+          onTextInputWarning(warningText.MAX_MEMO_SIZE_WARNING);
+          return;
+        }
+
+        chrome.storage.local.set({
+          ["2ndBrain_item__" + currentTimeMs]: {
+            content: text,
+            addedTime: currentTimeMs,
+            deletedTime: null,
+            deletedBy: null,
+            matchedText: null,
+          },
         });
-      }
+        createListItem(text, currentTimeMs);
+        textInput.value = "";
+        size++;
+        offTextInputWarning();
+
+        if (deletedSize > MAX_DELETED_MEMO_SIZE) {
+          chrome.storage.local.get(null, (items) => {
+            let item = Object.entries(items)
+              .filter(
+                ([key, value]) =>
+                  key.includes("2ndBrain_item__") && value.deletedTime !== null
+              )
+              .sort((a, b) => a[1].deletedTime - b[1].deletedTime)[0];
+
+            chrome.storage.local.remove(item[0]);
+          });
+        }
+      });
+
+      return items["2ndBrain_language"];
     });
   }
 
   /**
-   * chrome.storage.local에 저장된 데이터를 불러와서 화면에 표시하는 로직
+   * 저장된 데이터를 불러와서 화면에 표시하는 로직
    * - chrome.storage.local에 저장된 데이터를 저장한 시간순서로 정렬
    * - 순서대로 2nd Brain의 메모를 화면에 표시
    */

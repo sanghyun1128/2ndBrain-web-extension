@@ -166,7 +166,7 @@ span.dark {
 }
 #clearButton img {
   width: 50%;
-  height: 50%;
+  height: 25px;
 }
 #clearButton.light {
   background-color: #ce3d4a;

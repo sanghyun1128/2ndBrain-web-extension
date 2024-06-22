@@ -1,3 +1,8 @@
+import {
+  DELETE_MESSAGE_KO,
+  DELETE_MESSAGE_EN,
+} from "./const/background.const.js";
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.storage.local.clear();
   chrome.storage.local.set({ "2ndBrain_theme": "light" });
@@ -18,13 +23,19 @@ chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
           matchedText: query,
         },
       });
-      const notificationOptions = {
-        type: "basic",
-        iconUrl: "./images/project-icon-128.png",
-        title: "삭제 알림",
-        message: `2ndBrain에 저장된 "${value.content}" 항목이 삭제되었습니다.`,
-      };
-      chrome.notifications.create("2nd_brain__delete", notificationOptions);
+      chrome.storage.local.get(["2ndBrain_language"], (result) => {
+        let language = result["2ndBrain_language"];
+        const notificationOptions = {
+          type: "basic",
+          iconUrl: "./images/project-icon-128.png",
+          title: "2ndBrain",
+          message:
+            language === "ko"
+              ? `"${value.content}" ${DELETE_MESSAGE_KO}`
+              : `"${value.content}" ${DELETE_MESSAGE_EN}`,
+        };
+        chrome.notifications.create("2nd_brain__delete", notificationOptions);
+      });
     });
   }
 });

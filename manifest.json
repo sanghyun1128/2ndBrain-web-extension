@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "2nd Brain",
   "description": "Todo list with some extra features",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "action": {
     "default_popup": "/src/popup/popup.html",
     "default_icon": {

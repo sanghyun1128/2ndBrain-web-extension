@@ -194,6 +194,15 @@ const createListItem = (text, itemAddTimeMs) => {
   const itemText = document.createElement("span");
   const deleteButton = document.createElement("button");
   const deleteIcon = document.createElement("img");
+  const copyButton = document.createElement("button");
+  const copyIcon = document.createElement("img");
+
+  copyIcon.src = "../images/copy-icon.svg";
+  copyButton.appendChild(copyIcon);
+  copyButton.className = "smallButton";
+  copyButton.onclick = () => {
+    navigator.clipboard.writeText(text);
+  };
 
   deleteIcon.src = "../images/x-icon.svg";
   deleteButton.appendChild(deleteIcon);
@@ -212,9 +221,12 @@ const createListItem = (text, itemAddTimeMs) => {
     deleteListItem(deleteButton.id.split("__")[1]);
   };
   itemText.textContent = text;
+
   listItem.id = "listItem_id__" + itemAddTimeMs;
   listItem.appendChild(itemText);
+  listItem.appendChild(copyButton);
   listItem.appendChild(deleteButton);
+
   chrome.storage.local.get("2ndBrain_theme", (items) => {
     let theme = items["2ndBrain_theme"];
     listItem.classList.add(theme);

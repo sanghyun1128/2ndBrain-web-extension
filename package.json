@@ -1,14 +1,16 @@
 {
   "name": "2ndbrain-web-extension",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "zip": "mkdir -p versions && zip -r versions/2ndBrain_$npm_package_version.zip manifest.json src"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": "https://github.com/sanghyun1128/2ndBrain-web-extension.git",
+  "author": "sanghyun1128 <sanghyun1128@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "jest": "^29.7.0",
     "jest-puppeteer": "^10.0.1",
